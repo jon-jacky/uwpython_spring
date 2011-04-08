@@ -1,0 +1,66 @@
+% python course - spring - class 1 talking points
+
+Announcements
+
+Course web page - whole schedule is there now
+
+Tonight (as all nights) 1 hour lecture/demo, 
+then Brian and/or I circulate to discuss projects
+~ 15 min/student (each student in a group)
+Then ~20 minute summary to the class at the end
+Have something prepared to discuss with us.
+
+
+Lecture
+
+Django-style web application is just one style: "CMS style"
+- server has database, a bunch of documents, ...
+- server creates and sends each web page, client (browser) just renders it
+
+Alternate "API style"
+- server does a *computation*
+- server just sends data, not pages
+- client (browser + software) creates, updates pages
+- UI is in the client
+- client software updates page with new data without reloading: "Ajax"
+
+Example API-style web application - intro by JJ
+- Physics simulation by JJ, JC to experiment with techniques
+- Server is a Python CGI program that gets data from a form,
+ computes time series from the data, returns as JSON data
+- Client shows time series in a couple of different formats
+ - bar graph of events
+ - line graph of polarization
+ - frame-by-frame animation - animation by switching between images
+
+Demo example - Javascript, Ajax, canvas, etc. explanation by Jon Crump
+
+Server needn't send HTML.  Can also send:
+  - JSON
+  - SVG
+  - WebGL
+  - ...
+
+Browser + server can provide the user interface even for applications
+expected to run locally --- then optional use via the web is a bonus.
+
+Projects
+
+Suggested lab activity: start a repo on github (or your choice) with
+project description in README
+
+Consider: do you want to make your project public?
+
+Groups?  More than one project?
+
+
+Wrap up
+
+List of projects, 
+
+Common themes and issues?
+
+
+
+
+
