@@ -1,0 +1,44 @@
+% talking points for week 3 testing, postscript to Brian's talk
+
+Testing takes ~50% of product dev effort
+It can be a career track, at MS testers:devs is 1:1
+(it's not just pounding on keys, it's programming)
+
+In Python and other dynamic languages testing is even more important 
+because in static languages compile/build catches some kinds of errors.
+
+It's not just XUnit-style testing a la unittest, nose.  
+
+- larger scale: program, system, ...
+
+- automated test *generation*
+
+Larger scale: 
+
+Unit testing is not enough because programs have *state*, stored information,
+- so history of operations and interaction of operations matter.
+- at MS most errors found in testing are not in the unit being tested - 
+   they arise from feature interaactions.
+
+Simple program-level testing: capture all command output and diff it.
+- Sometimes I do this *instead* of unit testing.
+- I have trivial DIY framework to record and repeat what I did
+- Demo
+  - run test script: trun.py test_ls
+  - save test script output: test script output: trun.py test_ls > test_ls.ref
+  - rerun test script, compare output to saved output: clogdiff trun.py test_ls
+- Instead of DIY can run programs in any unit test framework by os.system
+
+Automated test *generation* - XUnit automates test execution, not generation
+- nose generators is rudimentary test case generation - it's parameter generation.
+- model-based testing is deeper and more versatile, but steep learning curve
+   instead of coding each test case and each assertion, 
+   you code a model that automatically generates and checks as many tests as needed.
+- Demo: PyModel WebApplication sample
+
+Testing, more broadly defined - don't script tests at all, just write assertions
+- Passive testing - check log files or other captured behavior
+- Run-time checking - run assertions all the time in a live system
+
+The point is not to use a particular tool or methodology - but to do
+whatever it takes to solve the problem, provide assurance, achieve quality.
