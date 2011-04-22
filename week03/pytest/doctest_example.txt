@@ -1,0 +1,26 @@
+>>> import sys
+>>> sys.path.insert(0, '.')
+
+This is how we get started with truthiness!
+
+blah, blah..... sdlkfjslkdjf lskdjf sldkfj
+
+
+>>> import truth
+>>> truth.truthiness(1)
+True
+>>> truth.truthiness(0)
+False
+>>> truth.truthiness(True)
+True
+>>> truth.truthiness(False)
+False
+>>> truth.truthiness('True')
+True
+>>> truth.truthiness('False')
+False
+
+
+
+
+
