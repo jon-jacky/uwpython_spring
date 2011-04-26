@@ -1,0 +1,84 @@
+% talking points for week 4, GUI programming with wxPython
+
+I've adjusted the original schedule - we're doing Graphics and GUI
+programming this week, events and threads next week.  It makes more
+sense --- GUIs motivate events, in fact we're starting events this
+week.
+
+SNR demo - explain it simulates lab bench equipment (show photo)
+Explain scope, frequency analyzer (mention Peter's EEG analyzer)
+Show scope and especially freq analyzer as adjust freq, amplitude, noise 
+Emphasize real-time response, hard to achieve in web application
+
+Graphics - pictures, images
+GUI - graphical user interface, UI that uses graphics and events
+
+You can have graphics without GUI but they often use the same libraries
+Graphics can be heavy on geometry, matrix math -- too deep for tonight.
+Tonight we'll emphasize GUI programming - libraries, O-O programming, events
+
+This demo uses GNU Radio library - which in turn uses wxPython GUI library.
+I am experienced with GNU Radio so that's why I'm discussing wxPython tonight.
+
+Other Python GUI libraries: TKinter (used in Downey textbook), PyQt, PyGTK, ...
+
+All GUI libraries are very complicated, have steep learning curve.
+
+They're all built on top of C/C++ libraries
+
+They all use classes and objects heavily.  Object-oriented programming
+as we now know it grew up with GUI programming and was (partly)
+motivated by it: Xerox PARC, Alto computer, Smalltalk language.
+
+They are all very complicated and have a steep learning curve.
+(show list of classes)
+
+Demo buttoncounter, show code
+
+script code creates app, creates a frame object, calls MainLoop.
+MainLoop contains all the event handling, returns when you close app from GUI.
+
+Frame object is top-level window.
+Frame object defines all the graphics and also the events and handlers.
+Frame __init__ runs once when object created, creates all the graphics
+ - in __init__, for loop populates dictionaries of graphic objects
+
+Show wx.Button class - including inheritance
+
+Events:
+
+Frame event handlers run whenever you do something in GUI - click buttons.
+ - in OnButton, find source of event and update approprate objects in display
+
+binds (associates) event handler with object - the event handler is a *callback*
+   we pass in the handler method as arg, on event the GUI framework will call it
+
+Event is itself an object that gets passed to handler, event object
+contains information about source of event.
+
+Does it have to be this complicated?  Compare to HTML form + server code
+
+If time remains, show SNR demo code - it's not much more complicated than
+buttoncounter!   That's what I mean by "steep learning curve"
+
+Same basic pattern, several kinds of events,
+here no Bind method, instead callback is arg of object initializer
+
+Also in SNR code - BoxSizer layout manager, flowgraph ...
+
+------
+
+URLs
+
+http://gnuradio.org/redmine/wiki/gnuradio/TutorialsWritePythonApplications
+
+http://www.wxpython.org/ 
+
+http://wiki.wxpython.org/Getting Started
+
+http://www.zetcode.com/wxpython/ (tutorial)
+
+http://www.wxpython.org/docs/api/  (reference)
+
+http://www.wxpython.org/docs/api/wx.Button-class.html, etc. (detailed ref.)
+ 
