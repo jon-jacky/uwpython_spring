@@ -1,0 +1,39 @@
+% talking points for week 5 - events, threads, parallel programming
+
+Managing multiple activities, several options with more and more
+concurrency, but also more complexity due to need for synchronization.
+
+- Events: multiple activities, one at a time, each activity runs to completion
+- Threads: multiple activities, one at a time, multiple (unfinished) activities pending at once
+- Parallel programming:  multiple activities, executing at the same time, requires multiple  proessors (computers, cores)
+
+Events
+
+Easy: no communication between events (except through global variables)
+Each event handler must finish quickly!
+Event dispatching/queuing is handled by the environment
+How do you wait for multiple events at the same time?
+GUI toolkits have this built in, hidden, for example wxPython app.MainLoop()
+Code it yourself (for sockets) with select 
+Each event handler must finish quickly!!!
+
+Threads
+
+
+
+
+Parallel programming
+
+Ttrue concurrency - requires multiple computers (processors, cores,
+...)  In fact most computers have had multiple cores for years now.
+
+- multiple python sessions, no synchronization.  Easiest.  Start
+python sessions in several terminal windows, run web server on several
+computers (maybe all talk to same database).  -
+
+- multiprocessing module - multiple processes, API similar to threads
+
+ http://docs.python.org/dev/library/multiprocessing.html
+
+- mapreduce, MPI, ... - libraries that support particular parallel
+  algorithms or progrmming styles
