@@ -1,39 +1,96 @@
-% talking points for week 5 - events, threads, parallel programming
+% talking points for week 5 - events, threads, processes
 
 Managing multiple activities, several options with more and more
 concurrency, but also more complexity due to need for synchronization.
 
 - Events: multiple activities, one at a time, each activity runs to completion
 - Threads: multiple activities, one at a time, multiple (unfinished) activities pending at once
-- Parallel programming:  multiple activities, executing at the same time, requires multiple  proessors (computers, cores)
+- Processes:  multiple activities, executing at the same time, requires multiple  proessors (computers, cores)
 
 Events
 
+Multiple activities, one at a time, each activity runs to completion
+
+Demo: review wx/buttoncounter.py 5, event handler OnButton
+
+Event dispatching/queuing is handled by the environment
+GUI toolkits have this built in, hidden, for example wxPython app.MainLoop()
+How do you wait for multiple events at the same time?
+  -- if you block waiting for one kind of event, you will miss the other kinds!
+Code it yourself (for sockets) with select 
+
+Demo: select/echoserver-select.py and echoserver-client.py
+
+select waits for input to appear at multiple ports/file-like-objects, also timeout
 Easy: no communication between events (except through global variables)
 Each event handler must finish quickly!
-Event dispatching/queuing is handled by the environment
-How do you wait for multiple events at the same time?
-GUI toolkits have this built in, hidden, for example wxPython app.MainLoop()
-Code it yourself (for sockets) with select 
-Each event handler must finish quickly!!!
+
 
 Threads
 
+Multiple activities, one at a time, multiple (unfinished) activities pending at once
 
+Demo threads/nosynch.py - one thread prints X's, the other prints O's - no synch.
+
+Show the code:
+- a thread class is a subclass of threading.Thread
+- a thread class __init__ must call the base class __init__
+- a thread class must have a run method
+- create thread instances in the usual way
+- call each thread's builtin start method
+
+Threads can be an alternative to select
+
+Demo: echoserver-threads.py - just show the code - behaves the same as select version
+
+Threads are better than events for long-running, ongoing tasks
+
+Demo: review snr/signoise2_multigui.py, show threads/oscope.py
+
+oscope.py is ASCII oscilloscope - much simpler than GNU Radio scope but similar idea
+Separate threads for signal generation and display 
+Again, no synch between threads --- so trace drifts across the screen, as expected
+
+I'm skipping the hard part - synchronization among threads 
+Each thread should only use data that other threads are done with (for now)
+Requires special programming constructs, benefits from special analysis tools etc.
+Stick to events if you can - buttoncounter only uses events, scope uses threads
+
+In Python, only one thread can run at a time.
+Threads are just one of several techniques or styles for managing multiple activities
+Any thread behavior could be coded with events -- or generators -- or --
 
 
 Parallel programming
 
-Ttrue concurrency - requires multiple computers (processors, cores,
-...)  In fact most computers have had multiple cores for years now.
+Only one Python thread can run at a time
+Process - a (potentially) concurrent activity.
+True concurrency - multiple activities running *at the same time* - requires multiple computers
+In fact most computers have have multiple cores now!  Even my modest 4-yr old laptop
 
-- multiple python sessions, no synchronization.  Easiest.  Start
-python sessions in several terminal windows, run web server on several
-computers (maybe all talk to same database).  -
+Demo System monitor with compute bound job, python compute.py 30 000 000
 
-- multiprocessing module - multiple processes, API similar to threads
+Recall generator expressions and xrange - compute.py saturates a core
+Unix shell creates a new process for each command, ... & suffix - saturate 2 cores!
+threads_compute.py shows you can't get true concurrency from Python threads
+ (demo first with one thread commented out)
+multiprocessing module provides true concurrency with processes 
+ similar programming to threads
+muliprocessing saturates *both* processors - get the work done in half the time!
+Again, I'm skipping the hard part tonight - communication and synchronization
 
- http://docs.python.org/dev/library/multiprocessing.html
+Specialized libraries for parallel processing: MPI (scientific) mapreduce (info.retr.)
 
-- mapreduce, MPI, ... - libraries that support particular parallel
-  algorithms or progrmming styles
+---------
+
+URLs
+
+http://ilab.cs.byu.edu/python/select/echoserver.html
+http://ilab.cs.byu.edu/python/select/echoclient.html
+http://ilab.cs.byu.edu/python/threadingmodule.html
+http://ilab.cs.byu.edu/python/code.html
+
+http://docs.python.org/library/thread.html
+http://docs.python.org/library/multiprocessing.html
+
+http://wiki.python.org/moin/ParallelProcessing
