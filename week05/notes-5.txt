@@ -5,7 +5,7 @@ concurrency, but also more complexity due to need for synchronization.
 
 - Events: multiple activities, one at a time, each activity runs to completion
 - Threads: multiple activities, one at a time, multiple (unfinished) activities pending at once
-- Processes:  multiple activities, executing at the same time, requires multiple  proessors (computers, cores)
+- Processes:  multiple activities, all at the same time, can use multiple processors (computers, cores)
 
 Events
 
@@ -61,7 +61,7 @@ Threads are just one of several techniques or styles for managing multiple activ
 Any thread behavior could be coded with events -- or generators -- or --
 
 
-Parallel programming
+Processes
 
 Only one Python thread can run at a time
 Process - a (potentially) concurrent activity.
@@ -71,7 +71,9 @@ In fact most computers have have multiple cores now!  Even my modest 4-yr old la
 Demo System monitor with compute bound job, python compute.py 30 000 000
 
 Recall generator expressions and xrange - compute.py saturates a core
-Unix shell creates a new process for each command, ... & suffix - saturate 2 cores!
+Unix shell creates a new process for each command, 
+ usually shell waits for process to finish but use & suffix to spawn concurrent
+ process - demo saturate 2 cores!  Easy way to get true concurrency w/no prog effort
 threads_compute.py shows you can't get true concurrency from Python threads
  (demo first with one thread commented out)
 multiprocessing module provides true concurrency with processes 
@@ -90,7 +92,11 @@ http://ilab.cs.byu.edu/python/select/echoclient.html
 http://ilab.cs.byu.edu/python/threadingmodule.html
 http://ilab.cs.byu.edu/python/code.html
 
+http://code.activestate.com/recipes/531824-chat-server-client-using-selectselect/
+
 http://docs.python.org/library/thread.html
 http://docs.python.org/library/multiprocessing.html
 
 http://wiki.python.org/moin/ParallelProcessing
+
+http://www.stanford.edu/~ouster/cgi-bin/papers/threads.pdf

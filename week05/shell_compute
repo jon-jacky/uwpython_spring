@@ -1,0 +1,5 @@
+echo "spawn compute-bound processes from the shell to use two cores"
+echo "python compute.py 30000000 &" # echo command to show what's happening
+python compute.py 30000000 &  # & suffix runs command in subprocess
+echo "python compute.py 30000001 &"
+python compute.py 30000001 &
