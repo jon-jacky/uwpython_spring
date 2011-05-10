@@ -1,0 +1,177 @@
+todo
+====
+x collect examples
+x keynote prep
+main slides
+decide on demos
+write demos
+read through, and edit
+
+
+points
+    when you need to deal with lots of simultaneous connections, you need async i/o
+    async really is: do one thing at a time - switching very quickly
+    several abstractions exist (callbacks (twisted, javascript), coroutines, etc)
+    this whole talk is only relevant if you're I/O bound
+
+
+talk
+====
+
+blocking I/O
+    phone & one person, answers, listen to question, lookup answer, say it, hang up
+threads, thread pools - aka, blocking I/O
+    10 people answer phone, listen to question, lookup answer, say it, hang up
+    work fine if most things end quickly
+what if it takes a while to get the answer?
+    10 people all busy waiting on the answers
+    just add more people?
+demo
+    show demo of just starting a bunch of sleeping threads
+    TODO: write demo script
+problem statement: c10k
+    http://www.kegel.com/c10k.html  (very detailed discussion)
+    written almost 10 years ago... let's see how my modern laptop deals
+if anything takes a 'long' time, can end up in trouble
+    slowdown can be caused by server or client
+        slow clients (even deliberately)
+        server steps which take time (CPU, network, disk, services)
+    need too many threads (memory)
+    block if pool is full, etc
+    basically, threads are sitting there blocked, taking up memory
+sometimes things are going to block in the real world
+    time.sleep() - will use this as a proxy for long running stuff
+
+pull list of alternates from c10k page
+
+async I/O
+    http://en.wikipedia.org/wiki/Asynchronous_I/O
+    ignoring (interrupts, I/O callback functions, I/O completion ports)
+    processes
+    threads (OS threads)
+    user threads (lightweight threads)
+    select loop
+        give list of file descriptors, block until one is ready
+        slows down if hundreds or thousands of file descriptors
+    epoll, kqueue, etc
+        same as select loop, but only returns the file descriptors which are ready
+        fast even with many thousands of file descriptors
+    all of these work only as long as we're blocking on I/O
+        if we're CPU bound, we still need multiple processes (maybe across multiple machines)
+        analogy - operator needs to do work themselves
+
+definitions
+file descriptor:
+    In computer programming, a file descriptor is an abstract indicator for accessing a file. The term is generally used in POSIX operating systems.In Unix-like systems, file descriptors can refer to files, directories, block or character devices (also called "special files"), sockets, FIFOs (also called named pipes), or unnamed pipes.
+    http://en.wikipedia.org/wiki/File_descriptor
+
+Event driven programming:
+    programming where the primary activity is reaction to receipt of semantically significant signals (aka 'events'). The signals can be from any source, most commonly including sensors, human input (e.g. clicking on a button), timers, observation upon shared state, or produced during computation as a result of reacting to other signals.
+    http://c2.com/cgi/wiki?EventDrivenProgramming
+
+Asynchronous I/O:
+    or non-blocking I/O, is a form of input/output processing that permits other processing to continue before the transmission has finished.
+    http://en.wikipedia.org/wiki/Asynchronous_I/O
+
+Event loop:
+    In computer science, the event loop, message dispatcher, message loop, message pump, or run loop is a programming construct that waits for and dispatches events or messages in a program. It works by polling some internal or external "event provider", which generally blocks until an event has arrived, and then calls the relevant event handler ("dispatches the event"). 
+    http://en.wikipedia.org/wiki/Event_loop
+
+
+abstractions on top of that
+    loop with inline code
+    loop with callbacks
+    coroutines - (AKA, lightweight threads)
+
+all of that said - maybe it's just OS level threads that are bad?
+    Why Events Are A Bad Idea (for High-concurrency Servers)
+        http://www.usenix.org/events/hotos03/tech/vonbehren.html
+
+Python options
+asynccore
+    http://docs.python.org/library/asyncore.html
+twisted
+    http://twistedmatrix.com/trac/
+gevent
+    "What you get is all the performance and scalability of an event system with the elegance and straightforward model of blocking IO programing." - http://stackoverflow.com/questions/634107/writing-a-socket-based-server-in-python-recommended-strategies/3221702#3221702
+    http://www.gevent.org/
+
+others:
+eventlet
+    http://eventlet.net/
+
+greenlets
+    http://codespeak.net/py/0.9.2/greenlet.html
+    saving and restoring main python thread state
+    because of that, you can't switch between threads
+
+
+ideas
+====
+telephone analogy - telephone operators as memory
+    answer
+    ask someone to get get info (they walk across the building and back)
+    relay answer
+    hang up
+
+
+reference
+====
+
+select/poll
+    http://en.wikipedia.org/wiki/Select_(Unix)
+    wait([list of file descriptors])
+    O(n) - the longer the list, the longer it takes to run
+
+epoll/kqueue
+    http://en.wikipedia.org/wiki/Epoll
+    init()
+    configure([list of file descriptors])
+    wait()
+    O(1) - always takes the same amount of time to run
+    http://blog.jauu.net/2011/01/23/Epoll-and-Select-Overhead/
+    (lies... really O(n) where n is the number of active file descriptors
+
+poll vs. epoll
+    http://sheddingbikes.com/posts/1280829388.html
+    Zed Shaw explains that both poll and epoll have a sweet-spot, you may need both.
+
+How To Use Linux epoll with Python
+    Very nice overview of blocking sockets vs. polling
+    http://scotdoyle.com/python-epoll-howto.html
+
+SocketServer - Threading and Forking mixins
+    http://docs.python.org/library/socketserver.html#asynchronous-mixins
+
+Asynchronous Servers in Python - with pretty graphs
+    http://nichol.as/asynchronous-servers-in-python
+Benchmark of Python WSGI Servers
+    http://nichol.as/benchmark-of-python-web-servers
+
+PyCon 2011: An outsider's look at co-routines. (video)
+    http://blip.tv/file/4881229
+
+David Beazley - excellent talks on Python generators and coroutines:
+    http://www.dabeaz.com/generators-uk/index.html
+    http://www.dabeaz.com/coroutines/index.html
+
+Understanding the code inside Tornado, the asynchronous web server
+    http://golubenco.org/?p=16
+
+How EVE (game) handles huge numbers of connected users
+    stackless (basically, greenlets++)
+    http://www.slideshare.net/Arbow/stackless-python-in-eve
+
+Creating enough client side traffic
+    http://engineering.monetate.com/do-c10k-testing-with-gevent
+
+Nice looking introduction to Twisted:
+    http://krondo.com/blog/?page_id=1327
+Twisted examples:
+    http://twistedmatrix.com/documents/current/core/examples/
+
+Why Events Are A Bad Idea (for High-concurrency Servers)
+    http://www.usenix.org/events/hotos03/tech/vonbehren.html
+
+Event driven programming: Introduction, Tutorial, History
+    http://eventdrivenpgm.sourceforge.net/event_driven_programming.pdf
