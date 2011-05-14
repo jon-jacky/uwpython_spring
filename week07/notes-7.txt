@@ -1,0 +1,92 @@
+% talking points for week 7 lecture on Cython etc.
+
+Best of both worlds: convenience of Python, performance of compiled code
+
+One of Python's super powers!
+Essential to Python's versatility and popularity
+Enables Python to do production scientific/technical computing
+Leverages decades of C (etc.) development, stand on the shoulders of giants
+
+Python can import "extension modules" that are written in other languages,
+including compiled languages: C, C++, ...
+
+Why do compiled languages perform better?
+Declarations provide extra information, also restrict behavior.  
+Compile + build uses the extra information to generate efficient code.
+Very different programming style and development process.
+
+Python list, ad lib in the interactive interpreter:
+
+ >>> a = [1,'Hello',(5,12,2011)]  # list of integer, string, tuple
+ >>> a[2:2] = [6.022e23]          # insert a float into the list
+ >>> a
+ [1, 'Hello', 6.0220000000000003e+23, (5, 12, 2011)] # the list has grown
+
+C array, there is no interpreter, write code in source file, must build to run:
+
+ int[1000] a;  /* a is an array of 1000 integers */
+  ^     ^
+ what   how many 
+(type)  (size)
+
+  a[2] = 6.022e+23; /* COMPILER ERROR can't assign float to integer array */
+  a[2] = 99;        /* can assign integer, replaces what was there */
+
+Dynamic data structures can also be coded in C, but it's a lot of trouble.
+
+Extensions must be coded, built in a Python-aware way, using special tools.
+Available languages and tools depend on which Python you are using:
+CPython (C, C++), Jython (Java), Iron Python (C#, .NET), PyPy ("other")
+
+CPython is most common.  For CPython there are several different methods:
+We'll briefly discuss CPython [C-API], ctypes, SWIG, Cython, Boost::Python
+
+C-API - Extension modules - program in C - how Python, NumPy itself are built 
+         - for C and Python internals experts, included in standard library
+
+ctypes - Foreign function interface, included in standard library
+
+SWIG - used in some big important systems: wxPython, GNU Radio, ...
+         - complicated, steep learning curve
+
+CPython (forked from Pyrex) - new, Seattle connection!
+         - a whole programming language, superset of Python with declarations
+         - intended to have gentle learning curve, from almost-Python on up
+
+References 
+
+Extending Python with C or C++
+http://docs.python.org/extending/extending.html
+
+Python Programming/Extending with C
+http://en.wikibooks.org/wiki/Python_Programming/Extending_with_C
+
+ctypes — A foreign function library for Python
+http://docs.python.org/library/ctypes.html
+
+Python C++ and SWIG
+http://wxpython.org/OSCON2008/Python C++ and SWIG.pdf
+
+SWIG documentation
+http://www.swig.org/doc.html
+
+Cython: C extensions for Python
+http://cython.org/
+
+Cython for NumPy users
+http://wiki.cython.org/tutorials/numpy
+
+Cython in the Python Package Index
+http://pypi.python.org/pypi/Cython
+
+Cython tutorial
+http://conference.scipy.org/proceedings/SciPy2009/paper_1/
+
+Using the Cython Compiler to write fast Python code
+http://www.behnel.de/cython200910/talk.html
+
+Hacker News, comments on Using the Cython Compiler ...
+http://news.ycombinator.com/item?id=1846002
+
+Fast numerical computations with Cython
+http://conference.scipy.org/proceedings/SciPy2009/paper_2/
