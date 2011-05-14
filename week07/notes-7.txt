@@ -1,14 +1,14 @@
 % talking points for week 7 lecture on Cython etc.
 
+Python can import *extension modules* that are written in compiled languages:
+C, C++, Fortran, ...
+
 Best of both worlds: convenience of Python, performance of compiled code
 
-One of Python's super powers!
+One of Python's super powers --- Python is not a closed system.
 Essential to Python's versatility and popularity
-Enables Python to do production scientific/technical computing
 Leverages decades of C (etc.) development, stand on the shoulders of giants
-
-Python can import "extension modules" that are written in other languages,
-including compiled languages: C, C++, ...
+Enables Python to do production scientific/technical computing, GUIs, ...
 
 Why do compiled languages perform better?
 Declarations provide extra information, also restrict behavior.  
@@ -32,43 +32,64 @@ C array, there is no interpreter, write code in source file, must build to run:
   a[2] = 6.022e+23; /* COMPILER ERROR can't assign float to integer array */
   a[2] = 99;        /* can assign integer, replaces what was there */
 
-Dynamic data structures can also be coded in C, but it's a lot of trouble.
+Dynamic data structures can also be coded in C etc., but it's a lot of trouble.
 
-Extensions must be coded, built in a Python-aware way, using special tools.
+Extension modules must be coded in a Python-aware way, built using special tools
 Available languages and tools depend on which Python you are using:
-CPython (C, C++), Jython (Java), Iron Python (C#, .NET), PyPy ("other")
+CPython (C, C++, Fortran, ...), Jython (Java), Iron Python (C#, .NET), 
+PyPy (...?)
 
 CPython is most common.  For CPython there are several different methods:
 We'll briefly discuss CPython [C-API], ctypes, SWIG, Cython, Boost::Python
 
 C-API - Extension modules - program in C - how Python, NumPy itself are built 
-         - for C and Python internals experts, included in standard library
-
-ctypes - Foreign function interface, included in standard library
+         - Built into Python - its basic extension mechanism
+         - Often used to write wrappers for existing C, C++, Fortran libraries
+         - Requires expertise in Python internals and C
+         - Used by other other extension tools: SWIG, CPython, ...
 
 SWIG - used in some big important systems: wxPython, GNU Radio, ...
-         - complicated, steep learning curve
+         - "wrapper generator", helper for writing lots of C-API calls
+         - must write "interface files" .i similar to C .h files
+         - then SWIG builder generates C-API wrappers
+         - not just for Python -- other dynamic languages: Perl, Scheme, ... 
 
-CPython (forked from Pyrex) - new, Seattle connection!
-         - a whole programming language, superset of Python with declarations
-         - intended to have gentle learning curve, from almost-Python on up
+Cython (forked from Pyrex) - new, Seattle connection (UW, SAGE, ...)
+         - a new programming language: superset of Python with declarations
+         - compiler translates Cython to C/C++ extension modules
+         - compiler accepts pure Python source, or Python + declarations
+         - intended to have gentle learning curve: start with plain Python,
+            just keep adding declarations until performance is acceptable
+         - can also wrap already-written C/C++/Fortran
+
+Also - ctypes, Boost::Python, ... not as popular, superceded by Cython?
+
 
 References 
 
 Extending Python with C or C++
-http://docs.python.org/extending/extending.html
+http://docs.python.org/extending/extending.htm
 
 Python Programming/Extending with C
 http://en.wikibooks.org/wiki/Python_Programming/Extending_with_C
 
+Numpy C-API
+http://docs.scipy.org/doc/numpy/reference/c-api.html
+
 ctypes — A foreign function library for Python
 http://docs.python.org/library/ctypes.html
+
+SWIG documentation
+http://www.swig.org/doc.html
 
 Python C++ and SWIG
 http://wxpython.org/OSCON2008/Python C++ and SWIG.pdf
 
-SWIG documentation
-http://www.swig.org/doc.html
+Numpy and SWIG
+http://docs.scipy.org/doc/numpy/reference/swig.html
+
+GNU Radio - How to Write a Signal Processing Block - The SWIG .i file
+http://www.gnu.org/software/gnuradio/doc/howto-write-a-block.html#swig
 
 Cython: C extensions for Python
 http://cython.org/
@@ -85,8 +106,8 @@ http://conference.scipy.org/proceedings/SciPy2009/paper_1/
 Using the Cython Compiler to write fast Python code
 http://www.behnel.de/cython200910/talk.html
 
-Hacker News, comments on Using the Cython Compiler ...
-http://news.ycombinator.com/item?id=1846002
-
 Fast numerical computations with Cython
 http://conference.scipy.org/proceedings/SciPy2009/paper_2/
+
+Hacker News, comments on Using the Cython Compiler ...
+http://news.ycombinator.com/item?id=1846002
