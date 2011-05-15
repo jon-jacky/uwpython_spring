@@ -3,61 +3,83 @@
 Python can import *extension modules* that are written in compiled languages:
 C, C++, Fortran, ...
 
-Best of both worlds: convenience of Python, performance of compiled code
+Best of both worlds, dynamic and static: convenience and
+expressiveness of Python, performance of compiled code.
 
-One of Python's super powers --- Python is not a closed system.
-Essential to Python's versatility and popularity
+One of Python's super powers --- Python is not a closed system!
+Essential to Python's versatility and popularity --- so you should know about it
 Leverages decades of C (etc.) development, stand on the shoulders of giants
 Enables Python to do production scientific/technical computing, GUIs, ...
 
+Extension modules are used in two ways --
+
+1. Use code originally developed for other projects: Python
+standard library, Numpy, wxPython, other GUIs, ...
+
+2. Partition new project into dynamic and static layers: GNU Radio, ...
+
 Why do compiled languages perform better?
 Declarations provide extra information, also restrict behavior.  
-Compile + build uses the extra information to generate efficient code.
+Compile + build uses the extra information to generate efficient code.  
 Very different programming style and development process.
 
-Python list, ad lib in the interactive interpreter:
+Python list, dynamic, ad lib in the interactive interpreter:
 
  >>> a = [1,'Hello',(5,12,2011)]  # list of integer, string, tuple
  >>> a[2:2] = [6.022e23]          # insert a float into the list
  >>> a
  [1, 'Hello', 6.0220000000000003e+23, (5, 12, 2011)] # the list has grown
+ >>> for x in a:  # Python has to find each x and figure out when we're done
+ >>>    f(x)      # f has to figure out what each x is and what to do with it
 
-C array, there is no interpreter, write code in source file, must build to run:
+C array, static, no interpreter, must write code in source file, then
+build to run.  Declarations provide information and restrict behavior:
 
- int[1000] a;  /* a is an array of 1000 integers */
+  int[1000] a;  /* a is an array of 1000 integers */
   ^     ^
  what   how many 
 (type)  (size)
 
-  a[2] = 6.022e+23; /* COMPILER ERROR can't assign float to integer array */
-  a[2] = 99;        /* can assign integer, replaces what was there */
+  a[0] = 99;        /* can assign integer, replaces what was there */
+  a[1] = 6.022e+23; /* compiler rejects, can't assign float to integer array */
 
-Dynamic data structures can also be coded in C etc., but it's a lot of trouble.
+  for (i=0; i<1000; i++) /* compiler generates efficient code to look up a[i]*/
+      f(a[i]);           /* compiler generates efficient code to handle a[i] */
+
+Difference in speed is not trivial, can be 10x, 100x, or more
+
+Dynamic data structures can also be coded in C etc, but it's a lot more trouble.
+
+Plenty of programming problems --- especially in math ---- are a good
+match to the static style, but Python can't take advantage of that.
+So we'd like to code them in a language that can.
 
 Extension modules must be coded in a Python-aware way, built using special tools
 Available languages and tools depend on which Python you are using:
 CPython (C, C++, Fortran, ...), Jython (Java), Iron Python (C#, .NET), 
 PyPy (...?)
 
-CPython is most common.  For CPython there are several different methods:
-We'll briefly discuss CPython [C-API], ctypes, SWIG, Cython, Boost::Python
+CPython is most common.  For CPython there are several different methods
+We'll discuss the big three, in logical and historic order: C-API, SWIG, Cython.
+There are others, less widespread, we won't discuss: ctypes, Boost::Python, ...
 
 C-API - Extension modules - program in C - how Python, NumPy itself are built 
          - Built into Python - its basic extension mechanism
          - Often used to write wrappers for existing C, C++, Fortran libraries
-         - Requires expertise in C and Python internals
-         - Used by other other extension tools: SWIG, CPython, ...
+         - Requires expertise in both C and Python internals
+         - Foundation, used by other other extension tools: SWIG, CPython, ...
 
 C-API how to:
- - install python-dev 
+ - install python-dev, tools not included in many regular Python distros
  - write foomodule.c with #include <Python.h> etc.
  - write setup.py that builds extension module foo.o from foomodule.c
- - python setup.py build
+ - python setup.py build # generate foo.o
  - put foo.o on your PYTHONPATH
  - in Python: import foo
 
 SWIG - used in some big important systems: wxPython, GNU Radio, ...
-         - "wrapper generator", helper for writing lots of C-API calls
+         - "wrapper generator", helper for writing lots of C-API calls,
+             generates C-API modules
          - must write "interface files" .i similar to C .h files
 	 - Still requires knowlege of C, but not Python internals
          - not just for Python -- also other dynamic languages: Perl, ...
@@ -66,20 +88,33 @@ SWIG how to:
  - install python-dev
  - write foomodule.c, ordinary C, no Python.h needed
  - write foo.i similar to C .h file
- - swig -python foo.i
- - compile and link C files generated by swig to generate _foo.o
+ - swig -python foo.i # generate C-API files
+ - compile and link C-API files generated by swig to generate _foo.o
  - put _foo.o on your PYTHONPATH
  - in Python: import foo 
 
 Cython (forked from Pyrex) - new, Seattle connection (UW, SAGE, ...)
          - a new programming language: superset of Python with declarations
-         - compiler translates Cython to C/C++ extension modules
+         - compiler translates Cython to C-API extension modules
          - compiler accepts pure Python source, or Python + declarations
          - intended to have gentle learning curve: start with plain Python,
             just keep adding declarations until performance is acceptable
          - can also wrap already-written C/C++/Fortran
 
-Also - ctypes, Boost::Python, ... not as popular, superceded by Cython?
+Cython how-to:
+ - install cython
+ - write foo.pyx, similar to foo.py but with optional declarations
+ - write setup.py that runs cython to build extension module foo.o
+ - python setup.py build_ext --inplace # compile cython,then compile c and link
+ - put foo.o on your PYTHONPATH
+ - in Python: import foo
+
+>>> integrate.integrate_f(0,1.5,20000000) # takes 13+ sec
+0.77823777512908388
+
+integratex.... takes < 2 sec
+
+Conclusion: Cython seems to be the way to go for the future!
 
 
 References 
@@ -92,9 +127,6 @@ http://en.wikibooks.org/wiki/Python_Programming/Extending_with_C
 
 Numpy C-API
 http://docs.scipy.org/doc/numpy/reference/c-api.html
-
-ctypes — A foreign function library for Python
-http://docs.python.org/library/ctypes.html
 
 SWIG documentation
 http://www.swig.org/doc.html
@@ -128,3 +160,8 @@ http://conference.scipy.org/proceedings/SciPy2009/paper_2/
 
 Hacker News, comments on Using the Cython Compiler ...
 http://news.ycombinator.com/item?id=1846002
+
+also
+
+ctypes — A foreign function library for Python
+http://docs.python.org/library/ctypes.html
