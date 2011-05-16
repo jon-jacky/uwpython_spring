@@ -120,7 +120,7 @@ Conclusion: Cython seems to be the way to go for the future!
 References 
 
 Extending Python with C or C++
-http://docs.python.org/extending/extending.htm
+http://docs.python.org/extending/extending.html
 
 Python Programming/Extending with C
 http://en.wikibooks.org/wiki/Python_Programming/Extending_with_C
