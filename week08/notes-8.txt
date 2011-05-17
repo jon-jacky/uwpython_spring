@@ -1,0 +1,44 @@
+% talking points for week 8 lecture on PyPI, distutils, ...
+
+Lots of tools, rather bewildering: distutils, setuptools, pip, easy_install,...
+
+Two kinds of tools:
+
+distributing code: distutils, setuptools, ...
+finding/installing code: pip, easy_install, ...
+
+What problems do they solve?
+
+Distributing/installing python modules/packages is easy - just
+post/download the .py files
+
+Review:
+
+module - any .py file
+package - directory containing modules, including at least  __init__.py 
+
+You can make any dir of .py files into a package by adding an __init__.py
+(which can be empty).
+
+importing a package, importing modules from a package
+
+PYTHONPATH and site-packages
+
+All this is built into python, doesn't require any special libraries or tools
+
+So - why distutils etc ?
+
+distutils motivated by *publicizing* and *finding* python packages.
+It's not enough to just post them somewhere - people have to be able
+to find them and learn about them (without installing).
+
+distutils supports PyPI, Python Package Index (formerly Cheeseshop) -
+modeled on Perl CPAN
+
+distutils defines a standard format for *metadata* that describes
+Python packages, also encourages a standard way to organize Python
+packages.
+
+The setup.py file - includes metadata, also includes build commands,
+especially for extension modules.
+
