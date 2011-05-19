@@ -1,16 +1,16 @@
 % talking points for week 8 lecture on PyPI, distutils, ...
 
-Lots of tools, rather bewildering: distutils, setuptools, pip, easy_install,...
+Lots of tools, rather bewildering: distutils, setuptools, easy_install, pip, ...
 
 Two kinds of tools:
 
 distributing code: distutils, setuptools, ...
-finding/installing code: pip, easy_install, ...
+finding/installing code: easy_install, pip, ...
 
 What problems do they solve?
 
 Distributing/installing python modules/packages is easy - just
-post/download the .py files
+post/download the .py files - so what's the problem?
 
 Review:
 
@@ -28,7 +28,7 @@ All this is built into python, doesn't require any special libraries or tools
 
 So - why distutils etc ?
 
-distutils motivated by *publicizing* and *finding* python packages.
+distutils motivated by *publicizing* and *finding* Python packages.
 It's not enough to just post them somewhere - people have to be able
 to find them and learn about them (without installing).
 
@@ -41,4 +41,30 @@ packages.
 
 The setup.py file - includes metadata, also includes build commands,
 especially for extension modules.
+
+...
+
+
+References
+
+Distributing Python Modules
+http://docs.python.org/distutils/index.html
+
+Installing Python Modules
+http://docs.python.org/install/index.html
+
+PyPI - the Python Package Index
+http://pypi.python.org/pypi
+
+CheeseShop Tutorial
+http://wiki.python.org/moin/CheeseShopTutorial
+
+A history of Python packaging
+http://faassen.n--tree.net/blog/view/weblog/2009/11/09/0
+
+Welcome to The Hitchhiker’s Guide to Packaging
+http://guide.python-distribute.org/
+
+Tools of the Modern Python Hacker: Virtualenv, Fabric and Pip
+http://www.clemesha.org/blog/modern-python-hacker-tools-virtualenv-fabric-pip
 
