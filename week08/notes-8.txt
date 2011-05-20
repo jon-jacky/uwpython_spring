@@ -1,57 +1,65 @@
 % talking points for week 8 lecture on PyPI, distutils, ...
 
 Lots of tools, rather bewildering: distutils, setuptools, easy_install, pip, ...
+ 
+This class: concentrate on distutils, with setup.py and PyPI
+Part of the standard library
+Demonstrates most of the basic techniques and problems
+Then: briefly discuss its limitations, quickly survey the other tools
 
-Two kinds of tools:
+What problem do these tools solve?
+Why not just post/download the .py files --- requires no special tools
 
-distributing code: distutils, setuptools, ...
-finding/installing code: easy_install, pip, ...
+distutils adds ---
+Automation/convenience/configurability for installation 
+Also (maybe MORE important) helps *find* and *publicize* packages
+Co-evolved with PyPI, Python Package Index (aka CheeseShop)
+Defines, encourages standard metadata for describing Python packages
+Supports, encourages standard package contents, directory organization
 
-What problems do they solve?
-
-Distributing/installing python modules/packages is easy - just
-post/download the .py files - so what's the problem?
-
-Review:
+Review of built-in Python packaging and installation - no tools needed
 
 module - any .py file
 package - directory containing modules, including at least  __init__.py 
 
 You can make any dir of .py files into a package by adding an __init__.py
-(which can be empty).
+(which can be empty, often contains just a docstring).
 
 importing a package, importing modules from a package
 
 PYTHONPATH and site-packages
 
-All this is built into python, doesn't require any special libraries or tools
 
-So - why distutils etc ?
+distutils and setup.py
 
-distutils motivated by *publicizing* and *finding* Python packages.
-It's not enough to just post them somewhere - people have to be able
-to find them and learn about them (without installing).
+Same tool handles installation and distribution 
+Command summary (? where did I see this)
 
-distutils supports PyPI, Python Package Index (formerly Cheeseshop) -
-modeled on Perl CPAN
+Installation:
+site-packages and bin
+Configuration
 
-distutils defines a standard format for *metadata* that describes
-Python packages, also encourages a standard way to organize Python
-packages.
+Distribution:
+Directory organization
+Metadata
+Build commands
 
-The setup.py file - includes metadata, also includes build commands,
-especially for extension modules.
 
-...
+Limitations of distutils:
+Multiple Python installations
+Dependencies
+
+Other tools:
+
+OS installers: apt, synaptic (Debian/Ubuntu), rpm (RedHat), macports (Mac),
+Windows ...
+
+Local applications: clear division between distribution and installation
+Web applications: these are merged into a single *deployment* step
+Fabric tool
 
 
 References
-
-Distributing Python Modules
-http://docs.python.org/distutils/index.html
-
-Installing Python Modules
-http://docs.python.org/install/index.html
 
 PyPI - the Python Package Index
 http://pypi.python.org/pypi
@@ -59,12 +67,24 @@ http://pypi.python.org/pypi
 CheeseShop Tutorial
 http://wiki.python.org/moin/CheeseShopTutorial
 
-A history of Python packaging
-http://faassen.n--tree.net/blog/view/weblog/2009/11/09/0
+The Hitchhiker’s Guide to Packaging: Quick Start
+http://guide.python-distribute.org/quickstart.html
 
-Welcome to The Hitchhiker’s Guide to Packaging
+Installing Python Modules
+http://docs.python.org/install/index.html
+
+Distributing Python Modules
+http://docs.python.org/distutils/index.html
+
+The Hitchhiker’s Guide to Packaging: Welcome (toc) and Introduction
 http://guide.python-distribute.org/
+http://guide.python-distribute.org/introduction.html
 
 Tools of the Modern Python Hacker: Virtualenv, Fabric and Pip
 http://www.clemesha.org/blog/modern-python-hacker-tools-virtualenv-fabric-pip
 
+A history of Python packaging
+http://faassen.n--tree.net/blog/view/weblog/2009/11/09/0
+
+"I want a pony": a developer's view of the Python packaging ecosystem
+http://groups.google.com/group/django-developers/msg/5407cdb400157259
