@@ -8,7 +8,7 @@ Demonstrates most of the basic techniques and problems
 Then: briefly discuss its limitations, quickly survey the other tools
 
 What problem do these tools solve?
-Why not just post/download the .py files --- requires no special tools
+Why not just post/download the .py files?  Requires no special tools
 
 distutils adds ---
 Automation/convenience/configurability for installation 
@@ -17,64 +17,81 @@ Co-evolved with PyPI, Python Package Index (aka CheeseShop)
 Defines, encourages standard metadata for describing Python packages
 Supports, encourages standard package contents, directory organization
 
-Review of built-in Python packaging and installation - no tools needed
+distutils etc. are oriented to installing *packages* and collections of
+yrelated packages - rather than just a bunch of files.
+
+Review built-in Python packaging and installation - no tools needed
 
 module - any .py file
 package - directory containing modules, including at least  __init__.py 
 
 You can make any dir of .py files into a package by adding an __init__.py
 (which can be empty, often contains just a docstring).
+Demonstrate adding __init__.py, then >>> import, >>> help(...)
 
-importing a package, importing modules from a package
+Project directory organization:
+Distribution directory contains metadata and packages
+(demo, show FLiP directory with ls -R and find .)
 
-PYTHONPATH and site-packages
+distutils + setup.py: same tool handles publicity, distribution, installation
 
-
-distutils and setup.py
-
-Same tool handles installation and distribution 
-Command summary (? where did I see this)
-
-Installation:
-site-packages and bin
-Configuration
+Publicity: 
+Put metadata in setup.py
+README.txt or README.rst - reStructuredText - easy-on-the-eyes markup
+python setup.py register - creates page at PyPI 
+(demo: show setup.py, README.rst, page at PyPI, python setup.py --help etc.)
 
 Distribution:
-Directory organization
-Metadata
-Build commands
+Name packages and other files in setup.py
+Include only the files you want - exclude .git, .svn, .pyc, editor backups, ...
+python setup.py sdist -v -f --formats=gztar,zip
+You put distro anywhere, mail it etc, or python setup.py upload to PyPI 
+(demo: show lines in setup.py, run sdists, show tar file contents)
 
+Installation:
+PYTHONPATH and site-packages or ..., site dependent
+Customize with command options --foo or .cfg files
+python setup.py install -n -v  to show what it *would* do, usually needs sudo
+Think about what the installation will look like!  
+- all installs might go into one site-packages/ - avoid clutter, minimize dirs
+- all scripts from all installs might go into one bin/ - names must be unique
 
-Limitations of distutils:
-Multiple Python installations
-Dependencies
+distutils doe *not* handle:
+Dependencies ---  automatically find/install the right dependencies
+ needed if we want to organize large systems as separate packages
+Multiple Python installations --- we'd like to install into a particular one
+Maintaining a local registry of installed programs
+Uninstall
+Automatic discovery, find download sites
 
 Other tools:
 
 OS installers: apt, synaptic (Debian/Ubuntu), rpm (RedHat), macports (Mac),
-Windows ...
+Python-specific installers: setuptools, easy_install, pip, ...
+Managing multiples pythons: virtualenv
 
-Local applications: clear division between distribution and installation
-Web applications: these are merged into a single *deployment* step
-Fabric tool
+Web applications, distribution+installation is one operation: fabric
 
 
 References
 
 PyPI - the Python Package Index
 http://pypi.python.org/pypi
-
 CheeseShop Tutorial
 http://wiki.python.org/moin/CheeseShopTutorial
 
-The Hitchhiker’s Guide to Packaging: Quick Start
+The Hitchhiker’s Guide to Packaging: Quick Start, then Creating a Package
 http://guide.python-distribute.org/quickstart.html
+http://guide.python-distribute.org/creation.html
 
 Installing Python Modules
 http://docs.python.org/install/index.html
 
 Distributing Python Modules
 http://docs.python.org/distutils/index.html
+
+Python Distutils Tips (python setup.py options and help)
+http://www.cac.cornell.edu/wiki/index.php?title=Python_Distutils_Tips
 
 The Hitchhiker’s Guide to Packaging: Welcome (toc) and Introduction
 http://guide.python-distribute.org/
@@ -88,3 +105,9 @@ http://faassen.n--tree.net/blog/view/weblog/2009/11/09/0
 
 "I want a pony": a developer's view of the Python packaging ecosystem
 http://groups.google.com/group/django-developers/msg/5407cdb400157259
+
+Semantic Versioning
+http://semver.org/
+
+reStructuredText
+http://docutils.sourceforge.net/docs/user/rst/quickref.html
