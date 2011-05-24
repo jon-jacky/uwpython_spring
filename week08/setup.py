@@ -4,8 +4,6 @@ setup.py for FLiP, just metadata.  To create the FLiP 1.0 page at PyPI:
  python setup.py register
 
 see http://docs.python.org/distutils/packageindex.html
-
-This setup.py names no packages. It is not intended to support sdist, install...
 """
 
 from distutils.core import setup
