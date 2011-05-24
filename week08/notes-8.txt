@@ -34,6 +34,7 @@ Distribution directory contains metadata and packages
 (demo, show FLiP directory with ls -R and find .)
 
 distutils + setup.py: same tool handles publicity, distribution, installation
+Try it, check it incrementally - each step separately, use -n flag for dry run
 
 Publicity: 
 Put metadata in setup.py
@@ -55,16 +56,21 @@ python setup.py install -n -v  to show what it *would* do, usually needs sudo
 Think about what the installation will look like!  
 - all installs might go into one site-packages/ - avoid clutter, minimize dirs
 - all scripts from all installs might go into one bin/ - names must be unique
+In general, running from install is different than running in your dev envt
+Test install on your own system or a few sample systems before upload to PyPI
 
 distutils doe *not* handle:
 Dependencies ---  automatically find/install the right dependencies
  needed if we want to organize large systems as separate packages
+ requires systematic version numbers:
+  0.Y.Z - no stable API
+  X.Y.Z - new X: backward *incompatible*, new Y: backward compatible, new Z: fix
 Multiple Python installations --- we'd like to install into a particular one
 Maintaining a local registry of installed programs
-Uninstall
+Uninstall (requires local registry)
 Automatic discovery, find download sites
 
-Other tools:
+Other tools, these wheels have been reinvented many times:
 
 OS installers: apt, synaptic (Debian/Ubuntu), rpm (RedHat), macports (Mac),
 Python-specific installers: setuptools, easy_install, pip, ...
