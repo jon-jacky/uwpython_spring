@@ -83,6 +83,7 @@ References
 
 PyPI - the Python Package Index
 http://pypi.python.org/pypi
+
 CheeseShop Tutorial
 http://wiki.python.org/moin/CheeseShopTutorial
 
@@ -91,10 +92,10 @@ http://guide.python-distribute.org/quickstart.html
 http://guide.python-distribute.org/creation.html
 
 Installing Python Modules
-http://docs.python.org/install/index.html
+http://docs.python.org/install/
 
 Distributing Python Modules
-http://docs.python.org/distutils/index.html
+http://docs.python.org/distutils/
 
 Python Distutils Tips (python setup.py options and help)
 http://www.cac.cornell.edu/wiki/index.php?title=Python_Distutils_Tips
