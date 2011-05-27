@@ -118,3 +118,10 @@ http://semver.org/
 
 reStructuredText
 http://docutils.sourceforge.net/docs/user/rst/quickref.html
+
+
+and this just in ... discovered the day after class:
+
+Detailed explanation and critique of packaging tools by Distutils2 author
+http://www.aosabook.org/en/packaging.html
+
