@@ -1,14 +1,6 @@
-todo
-====
-x collect examples
-x keynote prep
-main slides
-decide on demos
-write demos
-read through, and edit
-
-
 points
+======
+
     when you need to deal with lots of simultaneous connections, you need async i/o
     async really is: do one thing at a time - switching very quickly
     several abstractions exist (callbacks (twisted, javascript), coroutines, etc)
