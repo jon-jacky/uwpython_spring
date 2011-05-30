@@ -1,0 +1,112 @@
+todo
+====
+
+x review pycon presentation and sample code
+x make new slides 
+x survey current packager options
+x test examples from pycon
+add new slides?
+check with old slides
+update examples?
+x what is the right term for tools like py2exe/pyinstaller
+make py2app helloworld/env app (example2?)
+delete todo list and check in files
+
+
+points
+======
+
+distribution of applications - for end users, not other Python developers
+
+talk
+====
+
+problem? 
+    distributing applications
+
+what are the options?
+    bare script 
+    private python installation
+        distributed somehow
+        or on a network share! (good when working at large companies)
+            install "for me" on Windows, not "all users"
+    generate a stand-alone executable
+        includes Python, stdlib, your modules, binary dependencies
+        options
+            cx_freeze
+            pyInstaller 
+            py2exe
+            py2app
+
+demo
+    punchline first, run command, run installer
+    walk through py2exe config
+    show output files
+    walk through InnoSetup config
+    show config generator
+    run installer again, show output files
+
+gotchas
+    beware, you're entering the land of fiddly crap - especially with binary dependencies
+    run time environment differences
+        paths
+        dll loading/discovery
+        tempfiles
+        "one file" modes add complication and new failure modes
+            often extract to a temp file - can cause runtime issues
+            py2exe uses clever LoadLibrary tricks - doesn't work with some dlls
+    dependencies missing
+    console and GUI apps are different - need to decide up front which your app is. 
+        mostly, what happens to stdout and stderr
+
+recommendations?
+    my experience might not be the best - probably worth evaluating other options
+
+
+
+reference
+====
+
+cx_Freeze - active
+http://cx-freeze.sourceforge.net/
+    Windows, OS X, Linux
+    Python 2.3 - 3.2
+    Only Win/Linux choice for Python 3.x
+    Zipped eggs OK (probably)
+
+pyInstaller - active
+http://www.pyinstaller.org/
+    Windows, OS X, Linux
+    Python 2.2 - 2.7
+    Zipped eggs OK
+
+py2exe - stalled, but useful
+http://www.py2exe.org/
+http://www.py2exe.org/old/ - better intro docs than you'll find on the wiki
+    Windows only
+    Python 2.x
+    last release in 2008
+    stable and full-featured (many specialized windows features supported: versions, windows services, etc)
+    works great for Windows services
+    no zipped eggs (easy_install makes these by default, use -Z to unzip)
+
+py2app - active
+http://packages.python.org/py2app/
+http://pypi.python.org/pypi/py2app/
+https://bitbucket.org/ronaldoussoren/py2app/
+    OS X only
+    Python 2.5 - 3.2
+    Zipped eggs OK
+
+bbfreeze - active - fork of cx_freeze
+http://pypi.python.org/pypi/bbfreeze/
+    Windows and Linux
+    Python 2.4 - 2.7
+    Zipped eggs OK
+
+    
+gui wrapper around most of the tools:
+http://code.google.com/p/gui2exe/
+    "GUI2Exe is a Graphical User Interface frontend to all the "executable builders" available for the Python programming language. It can be used to build standalone Windows executables, Linux applications and Mac OS application bundles and plugins starting from Python scripts."
+
+
