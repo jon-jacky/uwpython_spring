@@ -1,16 +1,19 @@
 """
-setup.py for FLiP, just metadata.  To create the FLiP 1.0 page at PyPI:
-
- python setup.py register
-
+setup.py for FLiP, Logical Framework in Python
 see http://docs.python.org/distutils/packageindex.html
+
+To create or update the FLiP page at PyPI: python setup.py register
+To make distribution: python setup.py sdist -v -f --formats=gztar,zip
+It is possible to use FliP from the unpacked distribution without install
+To install from the unpacked distribution: python setup.py install
 """
 
 from distutils.core import setup
 
 setup(
     # Metadata for PyPI
-    # from http://docs.python.org/distutils/setupscript.html#meta-data
+    # To create the FLiP 1.0 page at PyPI: python setup.py register
+    # see http://docs.python.org/distutils/setupscript.html#meta-data
     # also http://docs.python.org/distutils/apiref.html#module-distutils.core
     name = 'FLiP',
     version = '1.0',
@@ -34,6 +37,7 @@ setup(
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: GNU General Public License (GPL)',
         'Natural Language :: English',
+        'Operating System :: OS Independent',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: POSIX :: Linux',
@@ -41,6 +45,12 @@ setup(
         'Topic :: Scientific/Engineering :: Mathematics',
         ],
 
-    # support python setup.py sdist
+    # Packages and other files to include in distribution
+    # To make distribution: python setup.py sdist -v -f --formats=gztar,zip
     packages = [ 'flip',  'flip.test', 'witch' ],
-)
+    package_data = { 'flip.test' : [ '*.ref' ],  # expected test output
+                     'witch' : [ '*.txt', 'cpath', 'cpath.bat' ] },
+    data_files = [ ('notes', [ '*.txt' ]),
+                   ('www', [ '*.html' ]) ]
+    
+    )
